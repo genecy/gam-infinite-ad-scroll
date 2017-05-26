@@ -1,0 +1,86 @@
+html, body {padding:0; margin:0;}
+body {font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:14px; color:#333; background-color:#eee;}
+a {color:#c00; text-decoration:none;}
+a:hover {text-decoration:underline;}
+.clear {display:block; clear:both; height:0; font-size:0; line-height:0px;}
+
+#page {
+	width:960px;
+	margin:0 auto;
+	background-color:#fff;
+}
+
+#header {
+	background-color:#666;
+	color:#fff;
+	text-align:center;
+	height:60px;
+	padding:0 10px;
+	line-height:60px;
+	font-size:36px;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+#header a {
+	color: #fff;
+}
+
+#cont {
+	padding:20px 10px;
+}
+#cont > .mainCol {
+	width:620px;
+	float:left;
+}
+#cont > .rightCol {
+	width:300px;
+	float:right;
+}
+
+#items {}
+#items .item {
+	position:relative;
+	padding-left:110px;
+	height:90px;
+	margin-top:20px;
+	line-height:90px;
+	border:1px solid #ccc;
+	padding:4px 4px 4px 114px;
+	background-color:#fafafa;
+}
+#items .item:first-child {
+	margin-top:0;
+}
+#items .item .img {
+	display:block;
+	width:90px;
+	height:90px;
+	position:absolute;
+	left:4px;
+	top:4px;
+	background-color:#333;
+}
+#items .item a {
+	color:#000;
+	font-weight:bold;
+	font-size:24px;
+}
+#items .dfpAd {
+	margin:20px auto 0 auto;
+}
+#items .btnMoreBl {
+	margin-top:20px;
+}
+#items .btnMoreBl a {
+	display:block;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	background-color:#fff;
+	color:#666;
+	border:1px solid #ccc;
+}
+#items .btnMoreBl a:hover {
+	background-color:#eee;
+	text-decoration:none;
+}
