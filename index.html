@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+	<title>Infinite Ads - Google Ad Manager Tests</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="main.css?v=1" />
+	<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+	<script type='text/javascript'>
+		var adSlots = [];
+		window.googletag = window.googletag || {cmd: []};
+		googletag.cmd.push(function() {
+			const contAdSlot = googletag.defineSlot('/4991722/ad_468x60px_1', [468, 60], 'div-gpt-cont-ad').addService(googletag.pubads());
+			const rightAdSlot = googletag.defineSlot('/4991722/ad_300x250px_1', [300, 250], 'div-gpt-right-ad').addService(googletag.pubads());
+			googletag.pubads().setTargeting('dfpcode', 'genecy-test-infinite-ads');
+			googletag.pubads().collapseEmptyDivs();
+			googletag.pubads().enableLazyLoad({
+					fetchMarginPercent: 100,
+					renderMarginPercent: 50,
+					mobileScaling: 2.0
+				});
+			googletag.enableServices();
+			adSlots.push(contAdSlot);
+		});
+	</script>
+</head>
+<body>
+	
+	<div id="page">
+		
+		<div id="header">
+			<a href="https://www.genecy.com/">
+				<img src="https://www.genecy.com/build/images/logo_black.svg" alt="Genecy.com" />
+			</a>
+		</div>
+		
+		<div id="cont">
+			
+			<div class="mainCol">
+				<div class="items" id="items" data-last-id="3">
+					<div class="item" data-id="1">
+						<span class="img"></span>
+						<a href="#">Title #1</a>
+					</div>
+					<div class="item" data-id="2">
+						<span class="img"></span>
+						<a href="#">Title #2</a>
+					</div>
+					<div class="item" data-id="3">
+						<span class="img"></span>
+						<a href="#">Title #3</a>
+					</div>
+					<div class="gamAd" id='div-gpt-cont-ad' style='height:60px; width:468px;'>
+						<script type='text/javascript'>
+						googletag.cmd.push(function() { googletag.display('div-gpt-cont-ad'); });
+						</script>
+					</div>
+				</div>
+				<div class="btnMoreBl"><a href="#" class="btnLoadMore" id="btn_load_more">Load more</a></div>
+			</div>
+			
+			<div class="rightCol">
+				<div id='div-gpt-right-ad' style='height:250px;'>
+				<script type='text/javascript'>
+				googletag.cmd.push(function() { googletag.display('div-gpt-right-ad'); });
+				</script>
+				</div>
+			</div>
+			
+			<div class="clear">&nbsp;</div>
+			
+		</div>
+
+		<footer>
+			<div class="copy">&copy; 2023 Genecy.com</div>
+		</footer>
+		
+	</div>
+	
+	<script>
+	const pageConf = {
+			itemsPerPage: 3,
+			activeInfiniteAds: 4
+		};
+
+	const generateGAMAd = (eLastItem, slotCode, size, targetings) => {
+		if (typeof targetings === 'undefined') {
+			targetings = {};
+		} else if (Object.prototype.toString.call(targetings) !== '[object Object]') {
+			targetings = {};
+		}
+		const adId = 'ad-' + Date.now();
+		const eAd = document.createElement('div');
+		eAd.id = adId;
+		eAd.classList.add('gamAd');
+		eAd.style.height = '60px';
+		eAd.style.width = '468px';
+		if (eLastItem.nextSibling) {
+			eLastItem.parentNode.insertBefore(eAd, eLastItem.nextSibling);
+		} else {
+			eLastItem.parentNode.appendChild(eAd);
+		}
+		googletag.cmd.push(function() {
+			if (adSlots.length >= pageConf.activeInfiniteAds) {
+				const firstAd = adSlots.shift();
+				const firstAdId = firstAd.getSlotElementId();
+				const firstAdEl = document.getElementById(firstAdId);
+				googletag.destroySlots([firstAd]);
+				firstAdEl.parentNode.removeChild(firstAdEl);
+			}
+			const slot = googletag.defineSlot(slotCode, size, adId);
+			for (var t in targetings) {
+				slot.setTargeting(t, targetings[t]);
+			}
+			slot.addService(googletag.pubads());
+			adSlots.push(slot);
+			googletag.pubads().refresh([slot]);
+		});
+	};
+		
+	const init = () => {
+
+		const eBtnLoadMore = document.getElementById('btn_load_more');
+		const eItems = document.getElementById('items');
+		if (!eBtnLoadMore || !eItems) return;
+
+		eBtnLoadMore.addEventListener('click', (e) => {
+			e.preventDefault();
+			let lastId = eItems.dataset.lastId;
+			let eLastItem = null;
+			for (let i = 0; i < pageConf.itemsPerPage; i++) {
+				const id = parseInt(lastId) + i + 1;
+				const eItem = document.createElement('div');
+				eItem.classList.add('item');
+				eItem.dataset.id = id;
+				eItem.innerHTML = `
+						<span class="img"></span>
+						<a href="#">Title #${id}</a>
+					`;
+				eItems.appendChild(eItem);
+				lastId = id;
+				eLastItem = eItem;
+			}
+			if (eLastItem) {
+				generateGAMAd(eLastItem, '/4991722/ad_468x60px_1', [468, 60], {});
+			}
+			eItems.dataset.lastId = lastId;
+		});
+
+	};
+
+	init();
+	</script>
+	
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"8137e77748409b4f","version":"2023.8.0","r":1,"token":"eca5c401860541db81bba656e1e7efe8","si":100}' crossorigin="anonymous"></script>
+</body>
+
+</html>
